@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>博客后台管理系统</title>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">博客后台管理</div>
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item"><a href="">后台首页</a></li>
+    </ul>
+      <div th:replace="~{common/common::topBar}"></div>
+  </div>
+  
+    <!--侧边栏-->
+    <div class="layui-side layui-bg-black">
+        <!--<div th:include="~{footer::leftBar}"></div>-->
+        <div class="layui-side-scroll" th:fragment="leftBar">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <div th:replace="~{common/common::leafBar}"></div>
+        </div>
+    </div>
+
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div class="container">
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <div class="form-group"></div>
+          <form class="form-inline" method="post" th:action="@{/admin/main}">
+            <div class="form-group">
+              <label for="exampleInputName2">文章标题：</label>
+              <input type="text" class="form-control" id="exampleInputName2" name="searchName" th:value="${searchName}">
+            </div>
+            <div class="form-group"  >
+              <label >文章分类:</label>
+              <select class="btn btn-default dropdown-toggle" type="button" name="searchType">
+                <option th:selected="${searchType}==null?'请选择':${searchType==type.getType()}"
+                        th:each="type:${types}" th:text="${type.getType()}"></option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-default">查找</button>
+          </form>
+        </div>
+      </div>
+      <hr/>
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+              <th>文章编号</th>
+              <th>文章标题</th>
+              <th>文章内容</th>
+              <th>文章类别</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              <tr th:each="archive:${archive}">
+                <td th:text="${archive.getArchivesId()}"></td>
+                <td th:text="${archive.getArchivesTitle()}"></td>
+                <td th:text="${#strings.abbreviate(archive.getArchivesContent(),15)}"></td>
+                <td th:text="${archive.getArchivesType()}"></td>
+
+                <td>
+                  <a th:href="@{/admin/toUpdate/}+${archive.getArchivesId()}" class="btn btn-sm btn-primary">修改</a>
+                  &nbsp;| &nbsp;
+                  <a th:href="@{/admin/delete/}+${archive.getArchivesId()}" class="btn btn-sm btn-danger" onclick="return del();">删除</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--显示分页信息部分代码-->
+      <div class="modal-footer no-margin-top">
+        <div class="col-md-6">
+          <strong>当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
+          </strong>
+        </div>
+        <ul class="pagination pull-right no-margin">
+          <li th:if="${pageInfo.hasPreviousPage}">
+            <a th:href="'/admin/main?pageNum=1'+'&&searchType='+${searchType}+'&&searchName='+${searchName}">首页</a>
+          </li>
+          <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+            <a th:href="'/admin/main?pageNum='+${pageInfo.prePage}+'&&searchType='+${searchType}+'&&searchName='+${searchName}">
+                上一页
+              <i class="ace-icon fa fa-angle-double-left"></i>
+            </a>
+          </li>
+          <!--遍历条数-->
+          <li th:each="nav:${pageInfo.navigatepageNums}">
+            <a th:href="'/admin/main?pageNum='+${nav}+'&&searchType='+${searchType}+'&&searchName='+${searchName}" th:text="${nav}"
+               th:if="${nav != pageInfo.pageNum}"></a>
+            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
+          </li>
+          <li class="next" th:if="${pageInfo.hasNextPage}">
+            <a th:href="'/admin/main?pageNum='+${pageInfo.nextPage}+'&&searchType='+${searchType}+'&&searchName='+${searchName}">
+                下一页
+              <i class="ace-icon fa fa-angle-double-right"></i>
+            </a>
+          </li>
+          <li>
+            <a th:href="'/admin/main?pageNum='+${pageInfo.pages}+'&&searchType='+${searchType}+'&&searchName='+${searchName}">尾页</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <tr>
+
+    </tr>
+    <div style="padding: 15px;">
+      
+    </div>
+  </div>
+
+    <div th:replace="~{common/common::footerBar}"></div>
+
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  
+});
+
+<!--删除文章提示-->
+function del(){
+  if(confirm('确认要删除？'))
+  {
+    return true;
+  }
+  return false;
+}
+
+</script>
+
+
+
+</body>
+</html>

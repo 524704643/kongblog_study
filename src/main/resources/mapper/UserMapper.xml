@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.website.hoho.dao.UserDao">
+
+    <select id="getUsers" resultType="user">
+        select * from blog_sql.user
+    </select>
+
+    <select id="getUserDtos" resultType="UserDto">
+        select * from blog_sql.user
+    </select>
+
+    <select id="getUserDto" parameterType="String" resultType="UserDto">
+         select * from blog_sql.user where username = #{username}
+    </select>
+
+</mapper>

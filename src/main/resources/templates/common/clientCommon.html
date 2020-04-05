@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>客户端公共部分</title>
+
+</head>
+<body>
+<!--头部导航栏-->
+<ul class="nav navbar-nav header-menu" th:fragment="topBar">
+    <li>
+        <a th:href="@{/}" >
+            首页
+        </a>
+    </li>
+    <li>
+        <a href="about.html">
+            关于
+        </a>
+    </li>
+    <li>
+        <a th:href="@{/blog/pages/1}">
+            博客
+        </a>
+    </li>
+    <li>
+        <a href="works.html">
+            作品
+        </a>
+    </li>
+    <li>
+        <a href="links.html">
+            链接
+        </a>
+    </li>
+    <li>
+        <a href="contact.html">
+            联系
+        </a>
+    </li>
+    <li>
+        <a href="help.html">
+            帮助
+        </a>
+    </li>
+
+    <li>
+        <form class="form-inline" method="get" th:action="@{/blog/search}">
+            <div class="form-group">
+                <hr>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputName2" name="searchContent" placeholder="输入关键字搜索">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+    </li>
+
+
+
+</ul>
+
+
+<!--左侧边栏-->
+<ul class="menu_link" th:fragment="leftBar">
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-toggle="tooltip" data-placement="right" title="登陆">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li data-toggle="tooltip" data-placement="right" title="博客">
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           target="_black">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                注册
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-tooltip="自定义链接">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-tooltip="自定义链接">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-tooltip="自定义链接">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-tooltip="自定义链接">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-tooltip="自定义链接">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="simptip-position-right simptip-smooth simptip-movable"
+           data-tooltip="自定义链接">
+            <img th:src="@{/assets/img/login.png}">
+            <span>
+                自定义链接
+              </span>
+            <div class="clearfix">
+            </div>
+        </a>
+    </li>
+</ul>
+
+<!--滑动栏-->
+<div id="slider" class="nivoSlider" th:fragment="sliderBar">
+    <img th:src="@{/assets/img/owl.jpg}" data-thumb="assets/img/owl.jpg" alt="" />
+    <a th:href="@{/assets/img/owl2.jpg}"><img th:src="@{/assets/img/owl2.jpg}" alt="" /></a>
+    <img th:src="@{/assets/img/owl.jpg}" data-thumb="assets/img/owl.jpg" alt="" />
+    <img th:src="@{/assets/img/owl2.jpg}" data-thumb="assets/img/owl2.jpg" alt="" />
+</div>
+
+底部版权栏
+<div class="copyright" th:fragment="footerBar">
+    <a href="http://www.beian.miit.gov.cn/">粤ICP备20015674号-1</a>
+</div>
+
+
+</body>
+</html>

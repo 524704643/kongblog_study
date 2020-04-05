@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.website.hoho.dao.ArchivesDao">
+
+    <select id="getArchives" resultType="Archives">
+        select * from blog_sql.archives order by create_time desc
+    </select>
+
+    <select id="getArchivesByContent" resultType="Archives" parameterType="string">
+         select * from blog_sql.archives
+         <where>
+             <if test="searchContent != null">
+                 archives_content like "%" #{searchContent}"%"
+             </if>
+         </where>
+    </select>
+
+    <select id="getArchivesByLimit" resultType="Archives">
+        select * from blog_sql.archives order by create_time desc limit 2
+    </select>
+
+    <select id="getArchivesById" parameterType="int" resultType="Archives">
+        select * from blog_sql.archives where archives_id = #{id}
+    </select>
+
+    <select id="getArchivesByName" parameterType="string" resultType="Archives">
+        select * from blog_sql.archives
+        <where>
+            <if test="searchName!= null">
+                archives_title like "%" #{searchName}"%"
+            </if>
+            <if test="searchType != '请选择'">
+               AND archives_type = #{searchType}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addArchives" parameterType="Archives">
+        insert into blog_sql.archives(archives_title, archives_content, create_time, archives_type) values
+        (#{archivesTitle},#{archivesContent} ,#{createTime},#{archivesType})
+    </insert>
+
+    <update id="updateArchives" parameterType="Archives">
+        update blog_sql.archives set archives_title = #{archivesTitle},archives_content=#{archivesContent},archives_type=#{archivesType}
+        where archives_id = #{archivesId}
+    </update>
+
+    <delete id="deleteArchives" parameterType="int">
+        delete from blog_sql.archives where archives_id = #{id}
+    </delete>
+
+
+</mapper>

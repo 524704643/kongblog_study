@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cn" dir="ltr" class="no-js" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="maximum-scale=1.0,width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>博客文章 </title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/nprogress.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/assets/css/nivo-slider.css}" type="text/css" media="screen" />
+    <link rel="stylesheet" th:href="@{/assets/css/default.css}" type="text/css" media="screen" />
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/assets/APlayer/dist/APlayer.min.css}">
+    <script th:src="@{/assets/js/jquery.nivo.slider.pack.js}"></script>
+    <script th:src="@{/assets/js/nprogress.js}"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">
+              Toggle navigation
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            </button>
+            <a class="navbar-brand" href="index.html">
+                <img th:src="@{/assets/img/logo.png}" class="logo"/>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+            <div th:replace="common/clientCommon::topBar"></div>
+        </div>
+    </div>
+</nav>
+<div class="leftbar">
+    <!-- 左菜单 -->
+    <div class="left_menu">
+        <div th:replace="common/clientCommon::leftBar"></div>
+    </div>
+</div>
+<!--Start banner img-->
+<div class="container-filed" id="banner_container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="slider-wrapper theme-default">
+                <div th:replace="common/clientCommon::sliderBar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End banner img-->
+<div class="container-fluid main-container" id="main-container">
+    <div class="row">
+        <div class="col-md-12 top-title">
+            <h2 class="page-title">
+                博客文章
+            </h2>
+        </div>
+        <h4 class="text-center" th:if="${searchContent!=null}" th:text="'包含关键字【'+${searchContent}+'】的文章'"></h4>
+        <div class="form-group"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 post-container" th:each="archive:${archives}">
+            <h2 class="post-title">
+                <a th:href="@{/archives/}+${archive.getArchivesId()}" title="" th:text="${archive.getArchivesTitle()}" ></a>
+            </h2>
+            <div class="meta-box">
+            <span class="m-post-date">
+              <i class="fa fa-calendar-o">
+              </i>
+              [[${#dates.format(archive.getCreateTime(),"yyyy年MM月dd日")}]]
+            </span>
+            </div>
+            <div class="post-content">
+                <p th:text="${#strings.abbreviate(archive.getArchivesContent(),200)}"></p>
+            </div>
+            <div class="meta-box">
+            <span class="cat-links">
+              <i class="fa fa-navicon">
+              </i>
+              <b>
+                  分类:
+              </b>
+              <a href="topics/life/diary.htm" th:text="${archive.getArchivesType()}">
+              </a>
+            </span>
+
+            </div>
+        </div>
+    </div>
+    <!--分页进入第二页，一页多少可分配-->
+    <div class="modal-footer no-margin-top" th:if="${archives.size()!=0}">
+        <ul class="pagination pull-right no-margin">
+
+            <!-- 首页 -->
+            <li>
+                <a th:href="'/blog/pages/1'">首页</a>
+            </li>
+
+            <!-- 上一页 -->
+            <li th:if="${pageInfo.hasPreviousPage}">
+                <a th:href="'/blog/pages/' + ${pageInfo.prePage}" th:text="上一页"></a>
+            </li>
+
+            <!-- 中间页 -->
+            <li th:each="nav:${pageInfo.navigatepageNums}">
+                <a th:href="'/blog/pages/' + ${nav}" th:text="${nav}" th:if="${nav!=pageInfo.pageNum}"></a>
+
+
+                <a th:href="'/blog/pages/' + ${nav}" th:text="${nav}" th:if="${nav==pageInfo.pageNum}"
+                   th:style="'font-weight:bold;background: #6faed9;'"></a>
+
+            </li>
+
+            <!-- 下一页 -->
+            <li th:if="${pageInfo.hasNextPage}">
+                <a th:href="'/blog/pages/' + ${pageInfo.nextPage}" th:text="下一页"></a>
+            </li>
+
+            <!-- 尾页 -->
+            <li>
+                <a th:href="'/blog/pages/' + ${pageInfo.pages}">尾页</a>
+            </li>
+
+        </ul>
+    </div>
+    <!--评论内容-->
+    <div class="row page-comments-container">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+    </div>
+    <footer>
+        <!--版权信息-->
+        <div th:replace="common/clientCommon::footerBar"></div>
+    </footer>
+</div>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script>
+    /*banner 初始化*/
+    $(window).load(function(){
+      $('#slider').nivoSlider({
+        effect: 'random',        // 过渡效果
+        controlNav: false,       // 是否显示图片导航控制按钮（,2,3... ）
+        pauseOnHover: true,      // 鼠标县浮时是否停止动画
+        manualAdvance: false,    // 是否手动切换 
+        animSpeed: 100,          // 图片过渡时间   
+        pauseTime: 2000,         // 图片显示时间
+        pauseOnHover: false,
+        manualAdvance: false,
+      });
+    });
+    $(document).ready(function(){
+      $('body').show();
+      $('.version').text(NProgress.version);
+      NProgress.start();
+      setTimeout(function() { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
+      var style2 = $(".style2")
+      style2.click(function(){
+        
+      })
+    })
+    
+</script>
+</body>
+
+</html>
